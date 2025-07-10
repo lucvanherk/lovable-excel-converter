@@ -1,0 +1,24 @@
+name: Deploy Supabase Edge Functions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-functions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Supabase CLI
+        uses: supabase/cli-action@v1
+        with:
+          version: latest
+
+      - name: Deploy Excel Converter Edge Function
+        run: supabase functions deploy excel_converter --project-ref ${{ secrets.SUPABASE_URL }} --service-role ${{
+          secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
